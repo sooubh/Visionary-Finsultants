@@ -3,17 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 
 type Stat = {
-  value: string;
   label: string;
   target: number;
   hasPlus: boolean;
 };
 
 const stats: Stat[] = [
-  { value: "315+", label: "Families Served", target: 315, hasPlus: true },
-  { value: "45+", label: "Cities", target: 45, hasPlus: true },
-  { value: "12", label: "States", target: 12, hasPlus: false },
-  { value: "7+", label: "Countries", target: 7, hasPlus: true },
+  { label: "Families Served", target: 315, hasPlus: true },
+  { label: "Cities", target: 45, hasPlus: true },
+  { label: "States", target: 12, hasPlus: false },
+  { label: "Countries", target: 7, hasPlus: true },
 ];
 
 export default function StatsStrip() {
@@ -51,7 +50,17 @@ export default function StatsStrip() {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
 
-      setValues(stats.map((stat) => Math.floor(stat.target * progress)));
+      setValues((previousValues) => {
+        const nextValues = stats.map((stat) =>
+          Math.floor(stat.target * progress)
+        );
+
+        const changed = nextValues.some(
+          (nextValue, index) => nextValue !== previousValues[index]
+        );
+
+        return changed ? nextValues : previousValues;
+      });
 
       if (progress < 1) {
         rafId = requestAnimationFrame(tick);
