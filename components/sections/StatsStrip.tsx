@@ -16,7 +16,7 @@ const stats: Stat[] = [
 ];
 
 export default function StatsStrip() {
-  const sectionRef = useRef<HTMLElement | null>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const [hasStarted, setHasStarted] = useState(false);
   const [values, setValues] = useState<number[]>(() => stats.map(() => 0));
 
@@ -44,7 +44,7 @@ export default function StatsStrip() {
 
     const duration = 1500;
     const start = performance.now();
-    let rafId = 0;
+    let rafId: number | undefined;
 
     const tick = (now: number) => {
       const elapsed = now - start;
@@ -69,7 +69,11 @@ export default function StatsStrip() {
 
     rafId = requestAnimationFrame(tick);
 
-    return () => cancelAnimationFrame(rafId);
+    return () => {
+      if (rafId !== undefined) {
+        cancelAnimationFrame(rafId);
+      }
+    };
   }, [hasStarted]);
 
   return (
