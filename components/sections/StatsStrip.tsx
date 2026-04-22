@@ -1,0 +1,97 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+
+type Stat = {
+  value: string;
+  label: string;
+  target: number;
+  hasPlus: boolean;
+};
+
+const stats: Stat[] = [
+  { value: "315+", label: "Families Served", target: 315, hasPlus: true },
+  { value: "45+", label: "Cities", target: 45, hasPlus: true },
+  { value: "12", label: "States", target: 12, hasPlus: false },
+  { value: "7+", label: "Countries", target: 7, hasPlus: true },
+];
+
+export default function StatsStrip() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const [hasStarted, setHasStarted] = useState(false);
+  const [values, setValues] = useState<number[]>(() => stats.map(() => 0));
+
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node || hasStarted) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasStarted(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(node);
+
+    return () => observer.disconnect();
+  }, [hasStarted]);
+
+  useEffect(() => {
+    if (!hasStarted) return;
+
+    const duration = 1500;
+    const start = performance.now();
+    let rafId = 0;
+
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+
+      setValues(stats.map((stat) => Math.floor(stat.target * progress)));
+
+      if (progress < 1) {
+        rafId = requestAnimationFrame(tick);
+      }
+    };
+
+    rafId = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(rafId);
+  }, [hasStarted]);
+
+  return (
+    <section
+      ref={sectionRef}
+      className="bg-charcoal px-6 py-12 md:px-16 lg:px-24"
+      aria-label="Visionary Finsultants statistics"
+    >
+      <div className="grid grid-cols-2 md:grid-cols-4">
+        {stats.map((stat, index) => {
+          const isComplete = values[index] >= stat.target;
+          const displayValue =
+            isComplete && stat.hasPlus ? `${values[index]}+` : values[index];
+
+          return (
+            <div
+              key={stat.label}
+              className={`py-4 text-center ${
+                index < stats.length - 1 ? "md:border-r md:border-gray-700" : ""
+              }`}
+            >
+              <p className="font-mono text-4xl font-bold text-gold md:text-5xl">
+                {displayValue}
+              </p>
+              <p className="mt-2 font-body text-sm uppercase tracking-wider text-gray-400">
+                {stat.label}
+              </p>
+            </div>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
