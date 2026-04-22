@@ -93,7 +93,7 @@ export default function StatsStrip() {
     >
       <div className="grid grid-cols-2 md:grid-cols-4">
         {stats.map((stat, index) => {
-          const isComplete = values[index] >= stat.target;
+          const isComplete = values[index] === stat.target;
           const displayValue =
             isComplete && stat.hasPlus
               ? `${values[index]}+`
