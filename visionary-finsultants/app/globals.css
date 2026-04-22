@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  background: #f8f5ef;
+  @apply bg-offwhite;
   font-family: var(--font-dm-sans), sans-serif;
 }
 
