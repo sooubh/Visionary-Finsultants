@@ -8,6 +8,21 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        gold: {
+          DEFAULT: "#C9952A",
+          light: "#E8D5A3",
+          muted: "#D4AB5A",
+        },
+        charcoal: "#1A1A1A",
+        offwhite: "#F8F5EF",
+        textgray: "#4A4A4A",
+      },
+      fontFamily: {
+        display: ["Playfair Display", "Georgia", "serif"],
+        body: ["DM Sans", "sans-serif"],
+        mono: ["DM Mono", "monospace"],
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
