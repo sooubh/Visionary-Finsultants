@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Mono, DM_Sans, Playfair_Display } from "next/font/google";
+import Navbar from "@/components/layout/Navbar";
 import "./globals.css";
 
 const playfairDisplay = Playfair_Display({
@@ -36,7 +37,7 @@ export default function RootLayout({
       className={`${playfairDisplay.variable} ${dmSans.variable} ${dmMono.variable}`}
     >
       <body>
-        {/* Navbar placeholder */}
+        <Navbar />
         <div>{children}</div>
         {/* Footer placeholder */}
       </body>
