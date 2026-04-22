@@ -32,7 +32,20 @@ export default function Hero() {
             </div>
           </div>
 
-          <div aria-hidden="true" />
+          <div className="hidden items-center justify-center lg:flex">
+            <div className="w-full max-w-md rounded-2xl border border-gold/20 bg-white p-8 shadow-sm">
+              <p className="font-mono text-xs uppercase tracking-wider text-gold">
+                Trusted Since 2018
+              </p>
+              <h2 className="mt-3 font-display text-3xl font-bold leading-tight text-charcoal">
+                315+ Families
+              </h2>
+              <p className="mt-3 font-body text-sm text-textgray">
+                Structured financial planning for long-term clarity across
+                India and global clients.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
