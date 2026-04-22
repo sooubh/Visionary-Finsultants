@@ -14,7 +14,6 @@ const stats: Stat[] = [
   { label: "States", target: 12, hasPlus: false },
   { label: "Countries", target: 7, hasPlus: true },
 ];
-const targets = stats.map((stat) => stat.target);
 
 export default function StatsStrip() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -45,6 +44,7 @@ export default function StatsStrip() {
 
     const duration = 1500;
     const start = performance.now();
+    const targets = stats.map((stat) => stat.target);
     let rafId: number | undefined;
 
     const tick = (now: number) => {
@@ -73,9 +73,7 @@ export default function StatsStrip() {
         return changed ? nextValues : previousValues;
       });
 
-      if (progress < 1) {
-        rafId = requestAnimationFrame(tick);
-      }
+      rafId = requestAnimationFrame(tick);
     };
 
     rafId = requestAnimationFrame(tick);
