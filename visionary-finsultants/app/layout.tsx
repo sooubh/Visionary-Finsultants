@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DM_Mono, DM_Sans, Playfair_Display } from "next/font/google";
+import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import "./globals.css";
 
@@ -39,7 +40,7 @@ export default function RootLayout({
       <body>
         <Navbar />
         <div>{children}</div>
-        {/* Footer placeholder */}
+        <Footer />
       </body>
     </html>
   );
