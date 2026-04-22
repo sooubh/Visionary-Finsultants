@@ -14,6 +14,7 @@ const stats: Stat[] = [
   { label: "States", target: 12, hasPlus: false },
   { label: "Countries", target: 7, hasPlus: true },
 ];
+const targets = stats.map((stat) => stat.target);
 
 export default function StatsStrip() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -50,9 +51,19 @@ export default function StatsStrip() {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
 
+      if (progress >= 1) {
+        setValues((previousValues) => {
+          const changed = targets.some(
+            (target, index) => target !== previousValues[index]
+          );
+          return changed ? targets : previousValues;
+        });
+        return;
+      }
+
       setValues((previousValues) => {
-        const nextValues = stats.map((stat) =>
-          Math.floor(stat.target * progress)
+        const nextValues = targets.map((target) =>
+          Math.floor(target * progress)
         );
 
         const changed = nextValues.some(
@@ -86,7 +97,9 @@ export default function StatsStrip() {
         {stats.map((stat, index) => {
           const isComplete = values[index] >= stat.target;
           const displayValue =
-            isComplete && stat.hasPlus ? `${values[index]}+` : values[index];
+            isComplete && stat.hasPlus
+              ? `${values[index]}+`
+              : String(values[index]);
 
           return (
             <div
