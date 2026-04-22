@@ -19,9 +19,9 @@ const config: Config = {
         textgray: "#4A4A4A",
       },
       fontFamily: {
-        display: ["Playfair Display", "Georgia", "serif"],
-        body: ["DM Sans", "sans-serif"],
-        mono: ["DM Mono", "monospace"],
+        display: ["var(--font-playfair-display)", "Georgia", "serif"],
+        body: ["var(--font-dm-sans)", "sans-serif"],
+        mono: ["var(--font-dm-mono)", "monospace"],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
